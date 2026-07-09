@@ -13,13 +13,14 @@ from src.config import RAW_DATA_PATH, PROCESSED_DATA_PATH
 # --- Import Data ---
 def load_raw_data(path = RAW_DATA_PATH) -> pd.DataFrame:
     ''' Read The Raw CSV '''
-    if not path.exists:
+    if not path.exists():
         raise FileNotFoundError(
-            f" Couldn't Found The DataSet at {path}"
+            f" Couldn't Find The DataSet at {path}"
             f" Download The File at https://www.kaggle.com/datasets/smokingkrils/temperature-forecast-project-using-ml"
             f" And Plase It There"
         )
     return pd.read_csv(path)
+
 
 # --- Split Date Column and Fill NA ---
 def feature_engineer(df: pd.DataFrame) -> pd.DataFrame:
@@ -42,16 +43,17 @@ def feature_engineer(df: pd.DataFrame) -> pd.DataFrame:
     df.drop('Date', axis= 1, inplace= True )
     return df
 
+
 # --- Load and Prepare ---
 def load_prepare(Save: bool= True) -> pd.DataFrame:
 
     df = load_raw_data()
     df = feature_engineer(df)
-
     if Save:
         df.to_csv(PROCESSED_DATA_PATH, index=False)
 
     return df
+
 
 if __name__ == "__main__":
     data = load_prepare()
